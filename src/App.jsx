@@ -54,7 +54,7 @@ function App() {
   return (
     <div className="">
       <InpField handleCallBack={handleCallBack} />
-      <div className="flex flex-col flex-wrap mx-auto justify-center gap-8 items-center md:flex-row">
+      <div className="flex flex-col flex-wrap mx-auto justify-center gap-10 items-center md:flex-row">
         {items.map((item) => {
           return (
             <div
@@ -63,10 +63,10 @@ function App() {
             >
               <img
                 src={personIcon}
-                className="absolute ml-14 mb-40"
+                className="absolute ml-14 mb-[195px]"
                 width="80px"
               ></img>
-              <div className="container mt-6 flex flex-col p-6 rounded-3xl items-center bg-cyan-600">
+              <div className="container mt-6 mb-1 flex flex-col p-6 rounded-3xl items-center bg-cyan-600">
                 <h3 className="text-2xl text-white font-bold">{item.name}</h3>
                 <h3 className="font-semibold text-white">{item.age}</h3>
                 <h3 className="font-semibold">{item.designation}</h3>
@@ -78,6 +78,7 @@ function App() {
                   ></img>
                 </button>
               </div>
+              <button className="bg-slate-400 text-white font-semibold px-2 py-1 mx-auto self-baseline rounded-full mt-1 hover:bg-slate-600">update</button>
             </div>
           );
         })}
