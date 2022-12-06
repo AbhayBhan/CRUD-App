@@ -3,10 +3,13 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://abhaybhan.github.io/CRUD-App/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "buildcss": "tailwindcss -i ./src/input.css -o ./src/styles/main.css",
     "watch": "tailwindcss -i ./src/input.css -o ./src/styles/main.css --watch"
   },
@@ -19,6 +22,7 @@
     "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.8",
     "@vitejs/plugin-react": "^2.2.0",
+    "gh-pages": "^4.0.0",
     "tailwindcss": "^3.2.4",
     "vite": "^3.2.3"
   }
