@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { InpField } from "./components/InpField";
+import { UpdateField } from "./components/UpdateField";
 import { db } from "./firebaseCfg";
 import {
   collection,
@@ -7,6 +8,7 @@ import {
   addDoc,
   doc,
   deleteDoc,
+  updateDoc
 } from "@firebase/firestore";
 import personIcon from "./images/PersonIcon.png";
 import delIcon from "./images/delicon.png";
@@ -14,10 +16,23 @@ import "./styles/main.css";
 
 function App() {
   const [items, setItems] = useState([]);
+
+
   const [uName, setUName] = useState("");
   const [uAge, setUAge] = useState(0);
   const [uDes, setUDes] = useState("");
+
+
+  const [cName, setCName] = useState("");
+  const [cAge, setCAge] = useState(0);
+  const [cDes, setCDes] = useState("");
+
+
   const [updateFacilitator, setUpdateFacilitator] = useState(false);
+  const [showUpdate, setShowUpdate] = useState(false);
+
+
+  const [updationID, setUpdationID] = useState("");
   const databaseRef = collection(db, "users");
 
   useEffect(() => {
@@ -51,8 +66,24 @@ function App() {
     setUDes(des);
   };
 
+  const handleUpdateClick = (name, age, des, id) => {
+    setShowUpdate(!showUpdate);
+    setCName(name);
+    setCAge(age);
+    setCDes(des);
+    setUpdationID(id);
+  }
+
+  const updateListener = async (newName, newAge, newDes) => {
+    const userDoc = doc(db, "users", updationID);
+    const newData = {name : newName, age : newAge, designation : newDes}
+    await updateDoc(userDoc, newData);
+    setShowUpdate(!showUpdate);
+    setUpdateFacilitator(!updateFacilitator);
+  }
+
   return (
-    <div className="">
+    <div className="relative">
       <InpField handleCallBack={handleCallBack} />
       <div className="flex flex-col flex-wrap mx-auto justify-center gap-10 items-center md:flex-row">
         {items.map((item) => {
@@ -78,11 +109,12 @@ function App() {
                   ></img>
                 </button>
               </div>
-              <button className="bg-slate-400 text-white font-semibold px-2 py-1 mx-auto self-baseline rounded-full mt-1 hover:bg-slate-600">update</button>
+              <button onClick={() => {handleUpdateClick(item.name, item.age, item.designation, item.id)}} className="bg-slate-400 text-white font-semibold px-2 py-1 mx-auto self-baseline rounded-full mt-1 hover:bg-slate-600">update</button>
             </div>
           );
         })}
       </div>
+      {showUpdate ? <UpdateField updateListener={updateListener} cName={cName} cAge={cAge} cDes={cDes} /> : <div></div>}
     </div>
   );
 }
